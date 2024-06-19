@@ -26,7 +26,6 @@ class _HomePageState extends State<HomePage> {
     await showFutureLoadingDialog(
       loadingTitle: 'Loading...',
       errorTitle: 'Oops, something went wrong',
-      errorDescription: 'Please try again later.',
       loadingIcon: const CircularProgressIndicator(),
       context: context,
       future: () => Future.delayed(const Duration(seconds: 1)),
@@ -37,7 +36,6 @@ class _HomePageState extends State<HomePage> {
     await showFutureLoadingDialog(
       loadingTitle: 'Loading...',
       errorTitle: 'Oops, something went wrong',
-      errorDescription: 'Please try again later.',
       loadingIcon: const CircularProgressIndicator(),
       context: context,
       errorNextLabel: 'Retry',

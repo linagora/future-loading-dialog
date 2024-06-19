@@ -21,7 +21,6 @@ void main() {
               onPressed: () => showFutureLoadingDialog(
                 loadingTitle: 'Loading...',
                 errorTitle: 'Oops, something went wrong',
-                errorDescription: 'Please try again later.',
                 loadingIcon: const CircularProgressIndicator(),
                 context: context,
                 errorNextLabel: 'Retry',
@@ -55,7 +54,6 @@ void main() {
               onPressed: () => showFutureLoadingDialog(
                   loadingTitle: 'Loading...',
                   errorTitle: 'Oops, something went wrong',
-                  errorDescription: 'Please try again later.',
                   loadingIcon: const CircularProgressIndicator(),
                   context: context,
                   errorNextLabel: 'Retry',
@@ -77,7 +75,6 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('Oops, something went wrong'), findsOneWidget);
-    expect(find.text('Please try again later.'), findsOneWidget);
     expect(find.byType(TextButton), findsNWidgets(3));
   });
 }

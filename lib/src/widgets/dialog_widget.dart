@@ -5,6 +5,7 @@ class LoadingDialog<T> extends StatefulWidget {
   final Widget loadingIcon;
   final String loadingTitle;
   final String errorTitle;
+  final double? maxWidth;
   final Color? backgroundNextLabel;
   final Color? backgroundBackLabel;
   final String? errorBackLabel;
@@ -28,6 +29,7 @@ class LoadingDialog<T> extends StatefulWidget {
     this.loadingTitle = 'Loading...',
     this.errorTitle = 'Oops, something went wrong.',
     this.onError,
+    this.maxWidth,
     this.errorBackLabel,
     this.errorNextLabel,
     this.loadingTitleStyle,
@@ -76,55 +78,60 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
-      content: exception == null
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                widget.loadingIcon,
-                const SizedBox(height: 24),
-                Text(
-                  widget.loadingTitle,
-                  style: widget.loadingTitleStyle,
-                ),
-              ],
-            )
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Icon(
-                      Icons.close_rounded,
-                      color: Colors.black,
-                      size: 24,
+      content: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 400,
+        ),
+        child: exception == null
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  widget.loadingIcon,
+                  const SizedBox(height: 24),
+                  Text(
+                    widget.loadingTitle,
+                    style: widget.loadingTitleStyle,
+                  ),
+                ],
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Icon(
+                        Icons.close_rounded,
+                        color: Colors.black,
+                        size: 24,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 24,
-                    bottom: 48,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 24,
+                      bottom: 48,
+                    ),
+                    child: Text(
+                      widget.errorTitle,
+                      style: widget.errorTitleStyle,
+                    ),
                   ),
-                  child: Text(
-                    widget.errorTitle,
-                    style: widget.errorTitleStyle,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      defaultOnError(exception),
+                      maxLines: 2,
+                      textAlign: TextAlign.left,
+                      overflow: TextOverflow.ellipsis,
+                      style: widget.errorDescriptionStyle,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    defaultOnError(exception),
-                    maxLines: 2,
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                    style: widget.errorDescriptionStyle,
-                  ),
-                ),
-              ],
-            ),
+                ],
+              ),
+      ),
       actions: exception == null
           ? null
           : [
