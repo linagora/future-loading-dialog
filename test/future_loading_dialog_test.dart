@@ -19,7 +19,13 @@ void main() {
           body: Builder(
             builder: (context) => ElevatedButton(
               onPressed: () => showFutureLoadingDialog(
+                loadingTitle: 'Loading...',
+                errorTitle: 'Oops, something went wrong',
+                errorDescription: 'Please try again later.',
+                loadingIcon: const CircularProgressIndicator(),
                 context: context,
+                errorNextLabel: 'Retry',
+                errorBackLabel: 'Cancel',
                 future: () => Future.delayed(const Duration(seconds: 1)),
               ),
               child: const Text('Test'),
@@ -31,11 +37,11 @@ void main() {
 
     await tester.tap(find.byType(ElevatedButton));
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.text('Loading... Please Wait!'), findsOneWidget);
-    expect(find.byType(LinearProgressIndicator), findsOneWidget);
+    expect(find.text('Loading...'), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.pump(const Duration(seconds: 1));
-    expect(find.text('Loading... Please Wait!'), findsNothing);
-    expect(find.byType(LinearProgressIndicator), findsNothing);
+    expect(find.text('Loading...'), findsNothing);
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
   testWidgets('Future Loading Dialog with Exception',
       (WidgetTester tester) async {
@@ -47,7 +53,13 @@ void main() {
           body: Builder(
             builder: (context) => ElevatedButton(
               onPressed: () => showFutureLoadingDialog(
+                  loadingTitle: 'Loading...',
+                  errorTitle: 'Oops, something went wrong',
+                  errorDescription: 'Please try again later.',
+                  loadingIcon: const CircularProgressIndicator(),
                   context: context,
+                  errorNextLabel: 'Retry',
+                  errorBackLabel: 'Cancel',
                   future: () async {
                     await Future.delayed(const Duration(seconds: 1));
                     throw 'Oops';
@@ -61,10 +73,11 @@ void main() {
 
     await tester.tap(find.byType(ElevatedButton));
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.text('Loading... Please Wait!'), findsOneWidget);
-    expect(find.byType(LinearProgressIndicator), findsOneWidget);
+    expect(find.text('Loading...'), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.pump(const Duration(seconds: 1));
-    expect(find.text('Oops'), findsOneWidget);
-    expect(find.byType(TextButton), findsOneWidget);
+    expect(find.text('Oops, something went wrong'), findsOneWidget);
+    expect(find.text('Please try again later.'), findsOneWidget);
+    expect(find.byType(TextButton), findsNWidgets(3));
   });
 }
