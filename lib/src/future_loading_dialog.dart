@@ -35,6 +35,8 @@ Future<LoadingDialogResult<T>> showFutureLoadingDialog<T>({
   TextStyle? errorNextLabelStyle,
   String Function(dynamic exception)? onError,
   bool barrierDismissible = false,
+  Color? backgroundErrorDialog,
+  bool? isMobileResponsive,
 }) async {
   final result = await showDialog<LoadingDialogResult<T>>(
     context: context,
@@ -56,6 +58,8 @@ Future<LoadingDialogResult<T>> showFutureLoadingDialog<T>({
       errorDescriptionStyle: errorDescriptionStyle,
       errorBackLabelStyle: errorBackLabelStyle,
       errorNextLabelStyle: errorNextLabelStyle,
+      backgroundErrorDialog: backgroundErrorDialog,
+      isMobileResponsive: isMobileResponsive ?? false,
     ),
   );
   return result ??
