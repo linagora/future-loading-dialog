@@ -193,11 +193,24 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                                       vertical: 14,
                                     ),
                                   ),
+                                  minimumSize: WidgetStateProperty.all(
+                                    Size(
+                                      widget.isMobileResponsive ? 96 : 112,
+                                      48,
+                                    ),
+                                  ),
+                                  maximumSize: WidgetStateProperty.all(
+                                    Size(
+                                      widget.isMobileResponsive ? 96 : 112,
+                                      48,
+                                    ),
+                                  ),
                                 ),
                                 onPressed: () => Navigator.of(context).pop(),
                                 child: Text(
                                   widget.errorBackLabel ?? '',
                                   style: widget.errorBackLabelStyle,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -222,11 +235,24 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                                       vertical: 14,
                                     ),
                                   ),
+                                  minimumSize: WidgetStateProperty.all(
+                                    Size(
+                                      widget.isMobileResponsive ? 96 : 112,
+                                      48,
+                                    ),
+                                  ),
+                                  maximumSize: WidgetStateProperty.all(
+                                    Size(
+                                      widget.isMobileResponsive ? 96 : 112,
+                                      48,
+                                    ),
+                                  ),
                                 ),
                                 onPressed: () => Navigator.of(context).pop(),
                                 child: Text(
                                   widget.errorNextLabel ?? '',
                                   style: widget.errorNextLabelStyle,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
