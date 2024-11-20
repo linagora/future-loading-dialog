@@ -94,7 +94,11 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                 ),
                 decoration: BoxDecoration(
                   color: widget.backgroundErrorDialog,
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      widget.isMobileResponsive ? 24 : 16,
+                    ),
+                  ),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.15),
@@ -122,12 +126,19 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                         ),
                         child: Align(
                           alignment: Alignment.topRight,
-                          child: TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: const Icon(
-                              Icons.close_rounded,
-                              color: Colors.black,
-                              size: 24,
+                          child: InkWell(
+                            onTap: () => Navigator.of(context).pop(),
+                            hoverColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: const SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Icon(
+                                Icons.close_rounded,
+                                color: Colors.black,
+                                size: 24,
+                              ),
                             ),
                           ),
                         ),
