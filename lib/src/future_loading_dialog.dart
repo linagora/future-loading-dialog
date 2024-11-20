@@ -37,6 +37,7 @@ Future<LoadingDialogResult<T>> showFutureLoadingDialog<T>({
   bool barrierDismissible = false,
   Color? backgroundErrorDialog,
   bool? isMobileResponsive,
+  Color? backgroundColor,
 }) async {
   final result = await showDialog<LoadingDialogResult<T>>(
     context: context,
@@ -60,6 +61,7 @@ Future<LoadingDialogResult<T>> showFutureLoadingDialog<T>({
       errorNextLabelStyle: errorNextLabelStyle,
       backgroundErrorDialog: backgroundErrorDialog,
       isMobileResponsive: isMobileResponsive ?? false,
+      backgroundColor: backgroundColor,
     ),
   );
   return result ??

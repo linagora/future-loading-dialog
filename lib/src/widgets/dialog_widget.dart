@@ -19,6 +19,7 @@ class LoadingDialog<T> extends StatefulWidget {
   final String Function(dynamic exception)? onError;
   final bool isMobileResponsive;
   final Color? backgroundErrorDialog;
+  final Color? backgroundColor;
 
   // ignore: prefer_function_declarations_over_variables
   static String Function(dynamic exception) defaultOnError =
@@ -43,6 +44,7 @@ class LoadingDialog<T> extends StatefulWidget {
     this.backgroundBackLabel,
     this.isMobileResponsive = false,
     this.backgroundErrorDialog,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -272,6 +274,7 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
       );
     }
     return AlertDialog(
+      backgroundColor: widget.backgroundColor ?? Colors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
