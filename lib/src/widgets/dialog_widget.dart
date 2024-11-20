@@ -6,6 +6,7 @@ class LoadingDialog<T> extends StatefulWidget {
   final String loadingTitle;
   final String errorTitle;
   final double? maxWidth;
+  final double? maxWidthButton;
   final Color? backgroundNextLabel;
   final Color? backgroundBackLabel;
   final String? errorBackLabel;
@@ -33,6 +34,7 @@ class LoadingDialog<T> extends StatefulWidget {
     this.errorTitle = 'Oops, something went wrong.',
     this.onError,
     this.maxWidth,
+    this.maxWidthButton,
     this.errorBackLabel,
     this.errorNextLabel,
     this.loadingTitleStyle,
@@ -195,15 +197,9 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                                       vertical: 14,
                                     ),
                                   ),
-                                  minimumSize: WidgetStateProperty.all(
-                                    Size(
-                                      widget.isMobileResponsive ? 96 : 112,
-                                      48,
-                                    ),
-                                  ),
                                   maximumSize: WidgetStateProperty.all(
                                     Size(
-                                      widget.isMobileResponsive ? 96 : 112,
+                                      widget.maxWidthButton ?? 112,
                                       48,
                                     ),
                                   ),
@@ -239,7 +235,7 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                                   ),
                                   minimumSize: WidgetStateProperty.all(
                                     Size(
-                                      widget.isMobileResponsive ? 96 : 112,
+                                      widget.maxWidthButton ?? 112,
                                       48,
                                     ),
                                   ),
