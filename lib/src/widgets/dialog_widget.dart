@@ -154,7 +154,7 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                           Text(
                             widget.errorTitle,
                             style: widget.errorTitleStyle,
-                            maxLines: 3,
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(
@@ -163,7 +163,7 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                           Text(
                             defaultOnError(exception),
                             style: widget.errorDescriptionStyle,
-                            maxLines: 5,
+                            maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(
