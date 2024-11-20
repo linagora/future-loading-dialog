@@ -17,6 +17,8 @@ class LoadingDialog<T> extends StatefulWidget {
   final TextStyle? errorNextLabelStyle;
   final Future<T> Function() future;
   final String Function(dynamic exception)? onError;
+  final bool isMobileResponsive;
+  final Color? backgroundErrorDialog;
 
   // ignore: prefer_function_declarations_over_variables
   static String Function(dynamic exception) defaultOnError =
@@ -39,6 +41,8 @@ class LoadingDialog<T> extends StatefulWidget {
     this.errorNextLabelStyle,
     this.backgroundNextLabel,
     this.backgroundBackLabel,
+    this.isMobileResponsive = false,
+    this.backgroundErrorDialog,
   }) : super(key: key);
 
   @override
@@ -73,108 +77,221 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
 
   @override
   Widget build(BuildContext context) {
+    if (exception != null) {
+      return GestureDetector(
+        onTap: () => Navigator.of(context).pop(),
+        child: Material(
+          type: MaterialType.transparency,
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            color: Colors.transparent,
+            child: Center(
+              child: Container(
+                width: widget.isMobileResponsive ? double.infinity : 448,
+                margin: EdgeInsets.symmetric(
+                  horizontal: widget.isMobileResponsive ? 24.0 : 36,
+                ),
+                decoration: BoxDecoration(
+                  color: widget.backgroundErrorDialog,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      widget.isMobileResponsive ? 24 : 16,
+                    ),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.15),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                      spreadRadius: 3,
+                    ),
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 3,
+                      offset: const Offset(0, 1),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (widget.isMobileResponsive) ...[
+                      const SizedBox(height: 24),
+                    ] else
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 8,
+                          right: 8,
+                        ),
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: InkWell(
+                            onTap: () => Navigator.of(context).pop(),
+                            hoverColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: const SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: Icon(
+                                Icons.close_rounded,
+                                color: Colors.black,
+                                size: 24,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: widget.isMobileResponsive ? 24.0 : 36,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.errorTitle,
+                            style: widget.errorTitleStyle,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(
+                            height: widget.isMobileResponsive ? 16 : 27,
+                          ),
+                          Text(
+                            defaultOnError(exception),
+                            style: widget.errorDescriptionStyle,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(
+                            height: widget.isMobileResponsive ? 24 : 65,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                style: ButtonStyle(
+                                  overlayColor: WidgetStateProperty.all(
+                                    Colors.transparent,
+                                  ),
+                                  splashFactory: NoSplash.splashFactory,
+                                  enableFeedback: false,
+                                  backgroundColor: WidgetStateProperty.all(
+                                    widget.backgroundBackLabel,
+                                  ),
+                                  shape: WidgetStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                  ),
+                                  padding: WidgetStateProperty.all(
+                                    const EdgeInsets.symmetric(
+                                      horizontal: 24,
+                                      vertical: 14,
+                                    ),
+                                  ),
+                                  minimumSize: WidgetStateProperty.all(
+                                    Size(
+                                      widget.isMobileResponsive ? 96 : 112,
+                                      48,
+                                    ),
+                                  ),
+                                  maximumSize: WidgetStateProperty.all(
+                                    Size(
+                                      widget.isMobileResponsive ? 96 : 112,
+                                      48,
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text(
+                                  widget.errorBackLabel ?? '',
+                                  style: widget.errorBackLabelStyle,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              TextButton(
+                                style: ButtonStyle(
+                                  overlayColor: WidgetStateProperty.all(
+                                    Colors.transparent,
+                                  ),
+                                  splashFactory: NoSplash.splashFactory,
+                                  enableFeedback: false,
+                                  backgroundColor: WidgetStateProperty.all(
+                                    widget.backgroundNextLabel,
+                                  ),
+                                  shape: WidgetStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                  ),
+                                  padding: WidgetStateProperty.all(
+                                    const EdgeInsets.symmetric(
+                                      horizontal: 24,
+                                      vertical: 14,
+                                    ),
+                                  ),
+                                  minimumSize: WidgetStateProperty.all(
+                                    Size(
+                                      widget.isMobileResponsive ? 96 : 112,
+                                      48,
+                                    ),
+                                  ),
+                                  maximumSize: WidgetStateProperty.all(
+                                    Size(
+                                      widget.isMobileResponsive ? 96 : 112,
+                                      48,
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text(
+                                  widget.errorNextLabel ?? '',
+                                  style: widget.errorNextLabelStyle,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: widget.isMobileResponsive ? 24.0 : 36.0,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
     return AlertDialog(
-      backgroundColor: exception == null ? Colors.transparent : null,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
       content: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 400,
+        constraints: BoxConstraints(
+          maxWidth: widget.maxWidth ?? 400,
         ),
-        child: exception == null
-            ? Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  widget.loadingIcon,
-                  const SizedBox(height: 24),
-                  Text(
-                    widget.loadingTitle,
-                    style: widget.loadingTitleStyle,
-                  ),
-                ],
-              )
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child: const Icon(
-                        Icons.close_rounded,
-                        color: Colors.black,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      top: 24,
-                      bottom: 48,
-                    ),
-                    child: Text(
-                      widget.errorTitle,
-                      style: widget.errorTitleStyle,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(
-                      defaultOnError(exception),
-                      maxLines: 2,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                      style: widget.errorDescriptionStyle,
-                    ),
-                  ),
-                ],
-              ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            widget.loadingIcon,
+            const SizedBox(height: 24),
+            Text(
+              widget.loadingTitle,
+              style: widget.loadingTitleStyle,
+            ),
+          ],
+        ),
       ),
-      actions: exception == null
-          ? null
-          : [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 14,
-                  ),
-                  decoration: BoxDecoration(
-                    color: widget.backgroundBackLabel,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Text(
-                    widget.errorBackLabel ?? '',
-                    style: widget.errorBackLabelStyle,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop<LoadingDialogResult<T>>(
-                  LoadingDialogResult(
-                    error: exception,
-                    stackTrace: stackTrace,
-                  ),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 14,
-                  ),
-                  decoration: BoxDecoration(
-                    color: widget.backgroundNextLabel,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Text(
-                    widget.errorNextLabel ?? '',
-                    style: widget.errorNextLabelStyle,
-                  ),
-                ),
-              ),
-            ],
     );
   }
 }

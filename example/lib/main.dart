@@ -58,14 +58,14 @@ class _HomePageState extends State<HomePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
-                child: const Text("Future loading"),
-                onPressed: displayLoadingModal),
+                onPressed: displayLoadingModal,
+                child: const Text("Future loading")),
             const SizedBox(
               height: 20,
             ),
             ElevatedButton(
-                child: const Text("FutureLoadingWithError"),
-                onPressed: displayLoadingModalWithError),
+                onPressed: displayLoadingModalWithError,
+                child: const Text("FutureLoadingWithError")),
           ],
         ),
       ),
