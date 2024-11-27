@@ -24,6 +24,7 @@ Future<LoadingDialogResult<T>> showFutureLoadingDialog<T>({
   required String errorTitle,
   double? maxWidth,
   double? maxWidthButton,
+  double? minWidthButton,
   Color? barrierColor,
   Color? backgroundNextLabel,
   Color? backgroundBackLabel,
@@ -64,6 +65,7 @@ Future<LoadingDialogResult<T>> showFutureLoadingDialog<T>({
       isMobileResponsive: isMobileResponsive ?? false,
       backgroundColor: backgroundColor,
       maxWidthButton: maxWidthButton,
+      minWidthButton: minWidthButton,
     ),
   );
   return result ??
