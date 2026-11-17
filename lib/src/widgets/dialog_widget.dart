@@ -59,10 +59,6 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
   dynamic exception;
   StackTrace? stackTrace;
 
-  // ignore: prefer_function_declarations_over_variables
-  static String Function(dynamic exception) defaultOnError =
-      (exception) => exception.toString();
-
   @override
   void initState() {
     super.initState();
@@ -167,7 +163,8 @@ class LoadingDialogState<T> extends State<LoadingDialog> {
                             height: widget.isMobileResponsive ? 16 : 27,
                           ),
                           Text(
-                            defaultOnError(exception),
+                            (widget.onError ??
+                                LoadingDialog.defaultOnError)(exception),
                             style: widget.errorDescriptionStyle,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
