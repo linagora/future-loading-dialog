@@ -75,6 +75,57 @@ void main() {
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
     await tester.pump(const Duration(seconds: 1));
     expect(find.text('Oops, something went wrong'), findsOneWidget);
-    expect(find.byType(TextButton), findsNWidgets(3));
+    expect(find.byType(TextButton), findsNWidgets(2));
+  });
+  group('error description', () {
+    final defaultOnError = LoadingDialog.defaultOnError;
+    tearDown(() => LoadingDialog.defaultOnError = defaultOnError);
+
+    Future<void> showFailingDialog(
+      WidgetTester tester, {
+      String Function(dynamic exception)? onError,
+    }) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) => ElevatedButton(
+                onPressed: () => showFutureLoadingDialog(
+                  loadingTitle: 'Loading...',
+                  errorTitle: 'Oops, something went wrong',
+                  loadingIcon: const CircularProgressIndicator(),
+                  context: context,
+                  onError: onError,
+                  future: () async => throw 'Oops',
+                ),
+                child: const Text('Test'),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pump();
+      await tester.pump();
+    }
+
+    testWidgets('uses onError', (tester) async {
+      await showFailingDialog(tester, onError: (e) => 'Localized $e');
+      expect(find.text('Localized Oops'), findsOneWidget);
+      expect(find.text('Oops'), findsNothing);
+    });
+
+    testWidgets('falls back to LoadingDialog.defaultOnError', (tester) async {
+      LoadingDialog.defaultOnError = (e) => 'Default $e';
+      await showFailingDialog(tester);
+      expect(find.text('Default Oops'), findsOneWidget);
+    });
+
+    testWidgets('onError wins over LoadingDialog.defaultOnError',
+        (tester) async {
+      LoadingDialog.defaultOnError = (e) => 'Default $e';
+      await showFailingDialog(tester, onError: (e) => 'Localized $e');
+      expect(find.text('Localized Oops'), findsOneWidget);
+    });
   });
 }
